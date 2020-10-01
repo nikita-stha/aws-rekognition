@@ -1,6 +1,6 @@
 import click
 import json
-from utils import detect_face
+from utils import detect_face, transcribe
 
 
 @click.group(invoke_without_command=False)
@@ -45,6 +45,11 @@ def analyse_face_s3l(file_name, bucket):
 
     print(json.dumps(message, indent=4))
 
+@main.comman(name="transcribe")
+@click.option("--job-name", "-jn", required=True)
+@click.option("--job-uri", "-ju", required=True)
+def analyse_face_s3l(job_name, job_uri):
+    transcribe.speech_to_text(job_name, job_uri)
 
 if __name__ == "__main__":
     cli()
