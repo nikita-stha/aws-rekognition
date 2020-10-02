@@ -1,4 +1,9 @@
 # aws-recognition
+This is the simple flask app the uses AWS Rekognize APIs to detect and analyse face in the image. The analysed features are as follows:
+- Gender
+- AgeRange
+- Emotion (Maximum probable image is displayed)
+- OtherAttributes ( wearingEyeglass, is smiling).These values needs to cross some defined threshold to be valid
 
 ## Pre-Requisites
 - Python Installed
@@ -18,6 +23,9 @@
 - If you want to analyze face from images of your local file system, then please add your image inside folder `images` and provide complete path of your image file.
 - If you want to analyze face fro s3, then you need to provide loacation of your S3 bucket and also the name of image file.
 - Run file `main.py`. You will be able to see the analysed reponse of your image.
+
+## Run flask app
+- Run command `python app.py`
 
 ## Format and Check Code
 - `make check` : To check code
