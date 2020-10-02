@@ -1,3 +1,4 @@
 boto3
 click
 black==20.8b1
+python-dotenv
