@@ -28,14 +28,12 @@ def detect_faces_local(file_path):
 
     try:
         client = boto3.client("rekognition")
-
         with open(file_path, "rb") as image:
             response = client.detect_faces(
                 Image={"Bytes": image.read()}, Attributes=["ALL"]
             )
 
         face_detection_confidence = response["FaceDetails"][0]["Confidence"]
-
         if face_detection_confidence < c.FACE_CONFIDENCE_TH:
             return None
 

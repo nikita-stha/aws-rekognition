@@ -43,4 +43,5 @@ def upload(file, bucket, aws_cred, object_name=None, acl="public-read"):
         raise e
     except botocore.exceptions.ParamValidationError as error:
         raise ValueError("The parameters you provided are incorrect: {}".format(error))
+    
     return {"data": file.filename}
