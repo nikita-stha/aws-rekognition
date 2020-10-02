@@ -44,7 +44,7 @@ def detect_faces_local(file_path):
         raise e
 
 
-def detect_faces_s3(file_name, bucket):
+def detect_faces_s3(file_name, bucket, aws_cred):
     """Detect face from S3 bucket
 
     Parameters
@@ -54,6 +54,9 @@ def detect_faces_s3(file_name, bucket):
 
     bucket : str
         The S3 bucket URL
+
+    aws_cred : dict
+        AWS credentials
 
     Returns
     -------
@@ -65,19 +68,25 @@ def detect_faces_s3(file_name, bucket):
         raise Exception("Missing one of the required attributes")
 
     try:
-        client = boto3.client("rekognition")
+        client = boto3.client(
+            "rekognition",
+            aws_access_key_id=aws_cred["aws_access_key_id"],
+            aws_secret_access_key=aws_cred["aws_secret_access_key"],
+            aws_session_token=aws_cred["aws_session_token"],
+        )
 
         response = client.detect_faces(
             Image={"S3Object": {"Bucket": bucket, "Name": file_name}},
             Attributes=["ALL"],
         )
 
-        face_detection_confidence = response["FaceDetails"][0]["Confidence"]
-
-        if face_detection_confidence < c.FACE_CONFIDENCE_TH:
-            return None
-
-        return response
+        face_details = response["FaceDetails"]
+        if len(face_details) > 0:
+            face_detection_confidence = response["FaceDetails"][0]["Confidence"]
+            if face_detection_confidence < c.FACE_CONFIDENCE_TH:
+                return None
+            return response
+        return None
     except ClientError as e:
         raise e
 
