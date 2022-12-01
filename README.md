@@ -1,4 +1,5 @@
 # aws-recognition
+This is a small project that shows how we can implement face detection solution using AWS Recognition.
 
 ## Pre-Requisites
 - Python Installed
